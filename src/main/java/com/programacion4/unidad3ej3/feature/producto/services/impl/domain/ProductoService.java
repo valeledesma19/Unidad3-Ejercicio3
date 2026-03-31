@@ -65,4 +65,14 @@ public class ProductoService implements IProductoService {
 
         return ProductoMapper.toResponseDto(productoActualizado);
     }
+    @Override
+    public void delete(Long id) {
+
+        var producto = productoRepository.findByIdAndEstaEliminadoFalse(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Producto con id " + id + " no existe"));
+
+        producto.setEstaEliminado(true);
+        productoRepository.save(producto);
+    }
 }

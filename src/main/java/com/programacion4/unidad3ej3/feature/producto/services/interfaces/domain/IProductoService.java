@@ -11,4 +11,5 @@ public interface IProductoService {
     ProductoResponseDto findById(Long id);
     ProductoResponseDto update(Long id, ProductoUpdateRequestDto request);
     ProductoResponseDto patch(Long id, ProductoPatchRequestDto request);
+    void delete(Long id);
 }
