@@ -6,6 +6,7 @@ import com.programacion4.unidad3ej3.feature.producto.services.interfaces.domain.
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +24,10 @@ public class ProductoController {
         return ResponseEntity.ok(
                 BaseResponse.ok(productos, "Listado obtenido correctamente")
         );
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse<ProductoResponseDto>> findById(@PathVariable Long id) {
+        var dto = productoReadService.findById(id);
+        return ResponseEntity.ok(BaseResponse.ok(dto, "Producto encontrado"));
     }
 }

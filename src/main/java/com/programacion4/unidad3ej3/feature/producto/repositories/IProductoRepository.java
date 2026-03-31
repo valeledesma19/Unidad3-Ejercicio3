@@ -7,11 +7,14 @@ import org.springframework.stereotype.Repository;
 import com.programacion4.unidad3ej3.feature.producto.models.Producto;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IProductoRepository extends JpaRepository<Producto, Long> {
+    Optional<Producto> findByIdAndEstaEliminadoFalse(Long id);
 
     boolean existsByNombre(String nombre);
     List<Producto> findAllByEstaEliminadoFalse();
+
     
 }
