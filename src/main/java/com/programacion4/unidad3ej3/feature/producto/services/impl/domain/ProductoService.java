@@ -1,6 +1,7 @@
 package com.programacion4.unidad3ej3.feature.producto.services.impl.domain;
 
 import com.programacion4.unidad3ej3.config.exceptions.ResourceNotFoundException;
+import com.programacion4.unidad3ej3.feature.producto.dtos.request.ProductoPatchRequestDto;
 import com.programacion4.unidad3ej3.feature.producto.dtos.request.ProductoUpdateRequestDto;
 import com.programacion4.unidad3ej3.feature.producto.dtos.response.ProductoResponseDto;
 import com.programacion4.unidad3ej3.feature.producto.mappers.ProductoMapper;
@@ -45,5 +46,23 @@ public class ProductoService implements IProductoService {
 
         var actualizado = productoRepository.save(producto);
         return ProductoMapper.toResponseDto(actualizado);
+    }
+    @Override
+    public ProductoResponseDto patch(Long id, ProductoPatchRequestDto request) {
+
+        var producto = productoRepository.findByIdAndEstaEliminadoFalse(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto con id " + id + " no existe"));
+
+        if (request.getPrecio() != null) {
+            producto.setPrecio(request.getPrecio());
+        }
+
+        if (request.getStock() != null) {
+            producto.setStock(request.getStock());
+        }
+
+        var productoActualizado = productoRepository.save(producto);
+
+        return ProductoMapper.toResponseDto(productoActualizado);
     }
 }
